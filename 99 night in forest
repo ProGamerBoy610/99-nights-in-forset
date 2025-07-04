@@ -1,34 +1,18 @@
--- Script to teleport player to Log part in items folder
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
-local character = player.Character or player.CharacterAdded:Wait()
-local humanoidRootPart = character:WaitForChild("HumanoidRootPart")
+-- Executor Script: Teleport to Log in items folder
+local player = game.Players.LocalPlayer
+local char = player.Character or player.CharacterAdded:Wait()
+local root = char:WaitForChild("HumanoidRootPart")
 
--- Function to teleport to Log part
-local function teleportToLog()
-    -- Check if items folder exists in workspace
-    local itemsFolder = workspace:FindFirstChild("items")
-    if not itemsFolder then
-        warn("Items folder not found in workspace!")
-        return
-    end
-    
-    -- Find the first Log part in the items folder
-    local logPart = itemsFolder:FindFirstChild("Log")
-    if not logPart then
-        warn("Log part not found in items folder!")
-        return
-    end
-    
-    -- Check if the Log part has a valid position
-    if logPart:IsA("BasePart") then
-        -- Teleport player to the Log part (slightly above it to avoid getting stuck)
-        humanoidRootPart.CFrame = logPart.CFrame + Vector3.new(0, 5, 0)
-        print("Teleported to Log part!")
+-- Direct teleport to Log part
+local items = workspace:FindFirstChild("Items")
+if items then
+    local log = items:FindFirstChild("Log")
+    if log and log:IsA("BasePart") then
+        root.CFrame = log.CFrame + Vector3.new(0, 3, 0)
+        print("✅ Teleported to Log!")
     else
-        warn("Log is not a valid part!")
+        print("❌ Log part not found!")
     end
+else
+    print("❌ Items folder not found!")
 end
-
--- Execute the teleport
-teleportToLog()
