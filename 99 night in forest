@@ -1,17 +1,22 @@
--- Executor Script: Teleport to Log in items folder
+-- Executor Script: Teleport to Log model in items folder
 local player = game.Players.LocalPlayer
 local char = player.Character or player.CharacterAdded:Wait()
 local root = char:WaitForChild("HumanoidRootPart")
 
--- Direct teleport to Log part
+-- Direct teleport to Log model
 local items = workspace:FindFirstChild("Items")
 if items then
     local log = items:FindFirstChild("Log")
-    if log and log:IsA("BasePart") then
-        root.CFrame = log.CFrame + Vector3.new(0, 3, 0)
-        print("✅ Teleported to Log!")
+    if log and log:IsA("Model") then
+        local primaryPart = log.PrimaryPart or log:FindFirstChildOfClass("BasePart")
+        if primaryPart then
+            root.CFrame = primaryPart.CFrame + Vector3.new(0, 3, 0)
+            print("✅ Teleported to Log model!")
+        else
+            print("❌ No parts found in Log model!")
+        end
     else
-        print("❌ Log part not found!")
+        print("❌ Log model not found!")
     end
 else
     print("❌ Items folder not found!")
